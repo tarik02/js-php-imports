@@ -1,0 +1,27 @@
+language: node_js
+node_js:
+- '10'
+- '12'
+- '14'
+
+install:
+- yarn install
+
+script:
+- yarn lint
+- yarn build
+
+notifications:
+  email: false
+
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: Taras.Fomin@gmail.com
+  api_key:
+    secure: "XJwYpju2Iaza7HU2A6vxTJOqKzJ88SLhBEP/9SjzMDLIRwgaIApz/rV8XmmHJOHoBzrlPQjfRhlrko0hXA7gkO54EXytcwdF13Lr4xoZEsSCnfg5jd/D+Qg955lzTinB2C2ddq9us4HumOrob11QJQXHefLssqPBE8OEARtzNCMc6qPb9ikIJ5fhPSdTjN5SgX409tEMNzacHtikMDzDgmIk/H684pikqI4roMmgkJP2SfRb32zaWr56neq9xCpvJMHSC4FTBMaXtvK5P7WXOQb28BbA6X2XUL+tRUWdmKs9r6BX/iaUe0xpB6cRoF5THoX4T8wBNnKAKGGdW1u/16Mzed1vIXPpRiDzpyPZ+1ywjm9+V1GIlt19Ae52f8+3Oa6sDkYToYvb6hNNhbZXdGdJvsx2Xj8q9xqXG/Aed4tR+XFoW05O+TTcXZQpMLXN7Xj//Nj23Vj80KGNu87cC86pg22x+T2s+Sn6xBVoVJbNR9bSvn0Vx7V2YLaTJgHMkqexiyYQnQzswT0eM0a/6Hu2Ra3zyAn8/xQ3PEtAq5Feh0fnlF31I3VB+4AkMDvhqszB9offpVRF8DWGbKdejk1Tuys2EqSe7qzwkCkWj4jlgdHCqAzRmRsVzCCoT2le82onGPooGtLcXzH6mpxlLmpTlB9Ze789fXGmSgDCrlY="
+  on:
+    tags: true
+    repo: Tarik02/js-php-imports
+    branch: master
+    condition: $TRAVIS_NODE_VERSION = 14

@@ -1,0 +1,83 @@
+Document =
+	('<?php' / '<?')? __ namespace:(Namespace _)? uses:Uses .* {
+			return {
+				namespace: namespace ? namespace[0] : null,
+				uses,
+			}
+		}
+
+Namespace =
+	'namespace' _ path:TypePath ';' {
+		return {
+			path
+		};
+	}
+
+Uses =
+	head:UseItem? tail:(_ UseItem)* {
+		return {
+			location: location(),
+			items: head ? [
+				head,
+					...tail.map(it => it[1]),
+			] : [],
+		};
+	}
+
+UseItem =
+	"use" __ value:UseValue _ ';' {
+		return value;
+	}
+
+UseValue =
+	UseGroup / UseSingle
+
+UseSingle =
+	modifier:(('function' / 'const') __)? path:TypePath alias:(__ 'as' __ Identifier)? {
+		return {
+			type: 'single',
+			modifier: modifier ? modifier[0] : null,
+			path,
+			alias: alias ? alias[3] : null
+		};
+	}
+
+UseGroup =
+	modifier:(('function' / 'const') __)? path:TypePath '\\{' _ head:UseSingle tail:(_ ',' _ UseSingle)* _ '}' {
+		return {
+			type: 'group',
+			modifier: modifier ? modifier[0] : null,
+			path,
+			children: [
+				head,
+				...tail.map(it => it[3])
+			],
+		};
+	}
+
+TypePath
+	= head:Identifier tail:('\\' Identifier)* {
+			return [
+					head,
+					...tail.map(it => it[1])
+				]
+		}
+
+Identifier
+	= value:[a-zA-Z_]+ {
+			return value.join('')
+		}
+
+__ "whitespace required"
+	= ([ \t\n\r] / Comment)+
+
+_ "whitespace"
+	= ([ \t\n\r] / Comment)*
+
+Comment = SingleLineComment / MultiLineComment
+
+SingleLineComment =
+	'//' [^\n]*
+
+MultiLineComment =
+	'/*' (!"*/" .)* '*/'

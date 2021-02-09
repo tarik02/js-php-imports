@@ -1,0 +1,64 @@
+root: true
+
+parser: '@typescript-eslint/parser'
+parserOptions:
+  ecmaVersion: 2020
+  sourceType: module
+
+env:
+  node: true
+
+extends:
+- 'plugin:@typescript-eslint/recommended'
+- 'plugin:import/errors'
+- 'plugin:import/warnings'
+- 'plugin:import/typescript'
+
+plugins:
+- '@typescript-eslint'
+- editorconfig
+- import
+
+settings:
+  import/parsers:
+    '@typescript-eslint/parser': ['.ts']
+
+rules:
+  no-tabs: off
+  comma-dangle: [error, always-multiline]
+  semi: [error, never]
+  indent: [error, tab]
+  no-multiple-empty-lines: [error, { max: 2 }]
+  space-before-function-paren: [error, {
+    anonymous: never,
+    named: never,
+    asyncArrow: always,
+  }]
+
+  sort-imports: [error, {
+    ignoreDeclarationSort: true,
+  }]
+  import/newline-after-import: [error, { count: 2 }]
+  import/order: [error, {
+    alphabetize: {
+      order: asc,
+      caseInsensitive: true,
+    },
+    newlines-between: always,
+    groups: [
+      [builtin, external],
+      internal,
+      parent,
+      [sibling, index],
+    ],
+    pathGroups: [
+      {
+        pattern: '@/**',
+        group: internal,
+      },
+    ],
+    pathGroupsExcludedImportTypes: [builtin],
+  }]
+
+  '@typescript-eslint/no-non-null-assertion': off
+  '@typescript-eslint/no-explicit-any': off
