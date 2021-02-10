@@ -6,9 +6,15 @@ import { PrintConfig } from '.'
 const CONFIG_DEFAULTS: PrintConfig = {
 	indent: ' '.repeat(4),
 	order: [
-		'singleUses.all',
+		'singleUses.class',
 		'emptyLine',
-		'groupedUses.all',
+		'singleUses.function',
+		'singleUses.const',
+		'emptyLine',
+		'groupedUses.class',
+		'emptyLine',
+		'groupedUses.function',
+		'groupedUses.const',
 	],
 }
 
@@ -33,12 +39,77 @@ export default (
 		'};',
 	].join('\n')
 
-	const parts = []
+	const printUse = (use: SingleUse | GroupUse): string => (
+		use.type === 'single'
+			? printSingleUse(use)
+			: printGroupUse(use)
+	)
+
+	let parts = []
 
 	for (const item of order) {
 		switch (item) {
 		case 'emptyLine':
-			parts.push('')
+			parts.push('emptyLine')
+			break
+
+		case 'all.all':
+			parts.push(
+				grouped.items
+					.map(it => printUse(it))
+					.join('\n'),
+			)
+			break
+
+		case 'all.class':
+			parts.push(
+				grouped.items
+					.filter(it => it.modifier === null)
+					.map(it => it.type === 'single'
+						? it
+						: ({
+							...it,
+							items: it.items.filter(item => item.modifier === null),
+						}),
+					)
+					.filter(it => it.type === 'single' || it.items.length !== 0)
+					.map(it => printUse(it))
+					.join('\n'),
+			)
+			break
+
+		case 'all.function':
+			parts.push(
+				grouped.items
+					.filter(it => it.modifier === null || it.modifier === 'function')
+					.map(it => it.type === 'single' || it.modifier === 'function'
+						? it
+						: ({
+							...it,
+							items: it.items.filter(item => item.modifier === 'function'),
+						}),
+					)
+					.filter(it => it.type === 'single' || it.items.length !== 0)
+					.map(it => printUse(it))
+					.join('\n'),
+			)
+			break
+
+		case 'all.const':
+			parts.push(
+				grouped.items
+					.filter(it => it.modifier === null || it.modifier === 'const')
+					.map(it => it.type === 'single' || it.modifier === 'const'
+						? it
+						: ({
+							...it,
+							items: it.items.filter(item => item.modifier === 'const'),
+						}),
+					)
+					.filter(it => it.type === 'single' || it.items.length !== 0)
+					.map(it => printUse(it))
+					.join('\n'),
+			)
 			break
 
 		case 'singleUses.all':
@@ -139,6 +210,10 @@ export default (
 			break
 		}
 	}
+
+	parts = parts
+		.filter(it => it.length > 0)
+		.map(it => it === 'emptyLine' ? '' : it)
 
 	const resultParts = []
 

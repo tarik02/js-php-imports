@@ -1,5 +1,9 @@
 export type PrintOrder =
 	| 'emptyLine'
+	| 'all.all'
+	| 'all.class'
+	| 'all.function'
+	| 'all.const'
 	| 'singleUses.all'
 	| 'singleUses.class'
 	| 'singleUses.function'
