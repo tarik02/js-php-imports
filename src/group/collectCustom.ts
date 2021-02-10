@@ -97,9 +97,7 @@ export default (
 				}
 
 				for (const match of items) {
-					if (!Tree.removeNode(input, Utils.aggregatedToPath(match.aggregated))) {
-						console.log(match.aggregated, Utils.aggregatedToPath(match.aggregated))
-					}
+					Tree.removeNode(input, Utils.aggregatedToPath(match.aggregated), 'item')
 				}
 
 				const groupModifier =	items.every(it => it.modifier === items[0].modifier)

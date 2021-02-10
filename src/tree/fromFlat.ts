@@ -8,6 +8,7 @@ export default (items: FlatUseItem[]): TreeUseNamespace => {
 		type: 'namespace',
 		name: '',
 		aggregated: '',
+		namespaces: new Map(),
 		items: new Map(),
 		count: 0,
 	}
@@ -28,11 +29,12 @@ export default (items: FlatUseItem[]): TreeUseNamespace => {
 					type: 'namespace',
 					name: slice,
 					aggregated: aggregatedPath,
+					namespaces: new Map(),
 					items: new Map(),
 					count: 0,
 				}
 				namespaces.set(aggregatedPath, namespace)
-				parent.items.set(slice, namespace)
+				parent.namespaces.set(slice, namespace)
 			}
 
 			parent = namespace

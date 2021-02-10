@@ -5,7 +5,8 @@ export type TreeUseNamespace = {
 	type: 'namespace';
 	name: string;
 	aggregated: string;
-	items: Map<string, TreeUseNamespace | TreeUseItem>;
+	namespaces: Map<string, TreeUseNamespace>;
+	items: Map<string, TreeUseItem>;
 	count: number;
 };
 

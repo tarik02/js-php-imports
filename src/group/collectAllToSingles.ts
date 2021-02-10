@@ -26,5 +26,6 @@ export default (
 		})
 	}
 
+	input.namespaces.clear()
 	input.items.clear()
 }

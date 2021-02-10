@@ -24,7 +24,7 @@ export default (root: TreeUseNamespace): string => {
 			result += ` /* ${node.count} children (${node.aggregated}) */`
 			result += '\n'
 			++indent
-			const items = [...node.items.values()]
+			const items = [...node.namespaces.values(), ...node.items.values()]
 			for (const item of items) {
 				enter(item)
 				if (item !== items[items.length - 1]) {
@@ -41,7 +41,7 @@ export default (root: TreeUseNamespace): string => {
 
 	result += 'use {\n'
 	++indent
-	const items = [...root.items.values()]
+	const items = [...root.namespaces.values(), ...root.items.values()]
 	for (const item of items) {
 		enter(item)
 		if (item !== items[items.length - 1]) {

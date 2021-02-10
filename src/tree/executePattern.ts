@@ -10,36 +10,34 @@ export default function* executePattern(
 ): Generator<TreeUseItem> {
 	switch (pattern[0]) {
 	case '*':
-		for (const item of node.items.values()) {
-			if (item.type === 'namespace') {
-				yield* executePattern(
-					item,
-					pattern.slice(1),
-					modifiers,
-				)
-			}
+		for (const namespace of node.namespaces.values()) {
+			yield* executePattern(
+				namespace,
+				pattern.slice(1),
+				modifiers,
+			)
 		}
 		break
 
 	case '**':
+		for (const item of node.namespaces.values()) {
+			yield* executePattern(
+				item,
+				['**'],
+				modifiers,
+			)
+		}
+
 		for (const item of node.items.values()) {
-			if (item.type === 'namespace') {
-				yield* executePattern(
-					item,
-					['**'],
-					modifiers,
-				)
-			} else {
-				if (modifiers.length === 0 || modifiers.some(it => it === item.modifier)) {
-					yield item
-				}
+			if (modifiers.length === 0 || modifiers.some(it => it === item.modifier)) {
+				yield item
 			}
 		}
 		break
 
 	default:
-		const item = node.items.get(pattern[0])
-		if (item && item.type === 'namespace') {
+		const item = node.namespaces.get(pattern[0])
+		if (item) {
 			yield* executePattern(
 				item,
 				pattern.slice(1),

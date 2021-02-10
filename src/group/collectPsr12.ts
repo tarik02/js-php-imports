@@ -60,7 +60,7 @@ export default (
 	const removeFromTree = (item: TreeUseItem): void => {
 		const parts = [...Utils.aggregatedToPath(item.aggregated)]
 
-		Tree.removeNode(input, parts)
+		Tree.removeNode(input, parts, 'item')
 
 		parts.pop()
 		classSubscriptions.get(getSubscriptionKeyForItem(item, parts)).delete(item)
