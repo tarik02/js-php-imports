@@ -17,8 +17,8 @@ export const PhpImportsRc = t.intersection([
 		exclude: z.fallback(
 			t.readonlyArray(z.string),
 			() => [
-				'node_modules',
-				'vendor',
+				'**/node_modules/**',
+				'**/vendor/**',
 			],
 		),
 	})),
