@@ -4,6 +4,16 @@
 
 JavaScript library for formatting PHP imports.
 
+## Installation
+
+```bash
+$ npm i --save php-imports
+```
+or
+```bash
+$ yarn add php-imports
+```
+
 ## CLI
 
 This package provides basic cli:
