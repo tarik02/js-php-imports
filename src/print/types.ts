@@ -14,7 +14,7 @@ export type PrintOrder =
 	| 'groupedUses.const'
 	;
 
-export type PrintConfig = {
+export type PrintConfig = Readonly<{
 	indent: string;
-	order: PrintOrder[];
-};
+	order: ReadonlyArray<PrintOrder>;
+}>;

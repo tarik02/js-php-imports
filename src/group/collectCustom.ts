@@ -6,8 +6,8 @@ import { GroupUse, GroupedUses } from '.'
 
 
 export type CollectCustomConfig = {
-	include: Record<string, { minImports: number }>;
-	exclude: string[];
+	include: Readonly<Record<string, { minImports: number }>>;
+	exclude: ReadonlyArray<string>;
 
 	isolateModifiers: boolean;
 };
