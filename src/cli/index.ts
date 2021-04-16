@@ -87,7 +87,7 @@ export class PhpImportsCli extends Command {
 		const config = parseRcFromObject(configObject)
 
 		return {
-			root: path.resolve(path.dirname(rcFile), configObject.root),
+			root: path.resolve(path.dirname(rcFile), config.root),
 			config,
 		}
 	}
