@@ -1,11 +1,10 @@
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="grammar.d.ts" />
-
 import { LocationRange } from 'pegjs'
 
 import { Modifier, Path } from '..'
 
-import * as parser from './grammar.peg'
+
+export { SyntaxError } from './grammar'
+export type SyntaxError = typeof SyntaxError;
 
 
 export type Document = {
@@ -37,8 +36,3 @@ export type UseGroup = {
 };
 
 export type Identifier = string;
-
-
-// eslint-disable-next-line @typescript-eslint/naming-convention
-export const SyntaxError = parser.SyntaxError
-export type SyntaxError = typeof SyntaxError;

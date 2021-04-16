@@ -28,6 +28,7 @@ rules:
   comma-dangle: [error, always-multiline]
   semi: [error, never]
   indent: [error, tab]
+  quotes: [error, single, { allowTemplateLiterals: true }]
   no-multiple-empty-lines: [error, { max: 2 }]
   space-before-function-paren: [error, {
     anonymous: never,
