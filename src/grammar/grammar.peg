@@ -43,7 +43,7 @@ UseSingle =
 	}
 
 UseGroup =
-	modifier:(('function' / 'const') __)? path:TypePath '\\{' _ head:UseSingle tail:(_ ',' _ UseSingle)* _ '}' {
+	modifier:(('function' / 'const') __)? path:TypePath '\\{' _ head:UseSingle tail:(_ ',' _ UseSingle)* _ ","? _ '}' {
 		return {
 			type: 'group',
 			modifier: modifier ? modifier[0] : null,
