@@ -66,6 +66,7 @@ It can contain the following options (dot means object nesting):
 * `custom.isolateModifiers`: Whether to put different modifiers (without modifier, const and function) to different groups.
 * `custom.include`: A list of namespaces that should always be grouped. Can be used with wildcards (*) and double wildcards (**).
 * `custom.exclude`: A list of namespaces that should never be grouped.
+* `unused.enable`: Clean up unused imports
 
 ## License
 

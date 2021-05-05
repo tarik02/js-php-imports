@@ -87,6 +87,13 @@ export const PhpImportsConfig = t.readonly(t.strict({
 		})),
 		() => ({}),
 	),
+
+	unused: z.fallbackInput(
+		t.readonly(t.strict({
+			enable: z.fallback(z.boolean, () => false),
+		})),
+		() => ({}),
+	),
 }))
 
 export type PhpImportsConfig = t.TypeOf<typeof PhpImportsConfig>

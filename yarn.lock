@@ -660,6 +660,11 @@ dir-glob@^3.0.1:
   dependencies:
     path-type "^4.0.0"
 
+doc-parser@^0.4.9:
+  version "0.4.9"
+  resolved "https://registry.yarnpkg.com/doc-parser/-/doc-parser-0.4.9.tgz#42c19bd22d452f171ac5d560a1d5af3bdfecfb63"
+  integrity sha512-E8pG7A2oi/wySV3odTZ0GA3YrFqp0WaptyeuQMhAwbDwYUVcKtgdA2e/rdEU/+dyBDTdZ3+eZVrkquooFyZy9g==
+
 doctrine@1.5.0:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/doctrine/-/doctrine-1.5.0.tgz#379dce730f6166f76cefa4e6707a159b02c5a6fa"
@@ -1636,6 +1641,11 @@ pegjs@^0.10.0:
   version "0.10.0"
   resolved "https://registry.yarnpkg.com/pegjs/-/pegjs-0.10.0.tgz#cf8bafae6eddff4b5a7efb185269eaaf4610ddbd"
   integrity sha1-z4uvrm7d/0tafvsYUmnqr0YQ3b0=
+
+php-parser@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.0.3.tgz#287779ea8a273ec5cf926f28e5f38ffa4ad32d4a"
+  integrity sha512-WjbrtYrwmLY9hpoKoq1+mVqJhT0dEVDZRWSpNIw2MpTw3VM/K4C6e0WR4KlU6G/XROkV7tpH4NesV2dDiPxqaw==
 
 picomatch@^2.0.5, picomatch@^2.2.1:
   version "2.2.2"

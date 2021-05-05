@@ -60,9 +60,11 @@
 		"@supercharge/promise-pool": "^1.7.0",
 		"@types/pegjs": "^0.10.2",
 		"cli-ux": "^5.5.1",
+		"doc-parser": "^0.4.9",
 		"fp-ts": "^2.10.2",
 		"globby": "^11.0.3",
 		"io-ts": "^2.2.16",
-		"io-ts-fuzzy": "^0.1.2"
+		"io-ts-fuzzy": "^0.1.2",
+		"php-parser": "^3.0.3"
 	}
 }

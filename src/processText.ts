@@ -8,10 +8,15 @@ export type TextProcessorResult = {
 	replacement: string
 }
 
+export type TextProcessorDelegate = {
+	onWarning?: (description: string, error: Error | string | undefined) => void,
+}
+
 export const processText = (
 	text: string,
 	config: PhpImportsConfig,
 	indent: string | undefined = undefined,
+	delegate: TextProcessorDelegate | undefined = undefined,
 ): TextProcessorResult | undefined => {
 	if (indent === undefined) {
 		indent = PhpImports.Utils.detectIndent(text) ?? '    '
@@ -19,10 +24,21 @@ export const processText = (
 
 	const document = PhpImports.Grammar.fromSource(text)
 
-	const flat = PhpImports.Flat.fromGrammar(document.uses)
+	let flat = PhpImports.Flat.fromGrammar(document.uses)
 
 	if (flat.length === 0) {
 		return undefined
+	}
+
+	if (true || config.unused.enable) {
+		try {
+			flat = PhpImports.Unused.clean(text, flat)
+		} catch (e) {
+			delegate?.onWarning?.(
+				'Failed to analyze unused imports',
+				e,
+			)
+		}
 	}
 
 	const tree = PhpImports.Tree.fromFlat(flat)

@@ -4,6 +4,7 @@ export * from './group'
 export * from './io'
 export * from './print'
 export * from './tree'
+export * from './unused'
 export * from './utils'
 
 export { PhpImportsConfig } from './io/PhpImportsConfig'
