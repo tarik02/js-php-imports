@@ -29,12 +29,14 @@ OPTIONS
   -h, --help             show CLI help
   -p, --project=project  [default: .] Project directory or .phpimportsrc file
   -v, --version          show CLI version
+  --dry                  Don't write any changes to files
+  --init                 Create .phpimportsrc file
 ```
 
 By default, it uses .phpimportsrc file located at current working directory.
 
 ## phpimportsrc
-It is a json file that contains configuration for this package.
+It is a json file that contains configuration for this package. You can create this file with `$ php-imports --init`.
 
 It can contain the following options (dot means object nesting):
 * `root`: Base location of sources. Default is `.` (current working directory).

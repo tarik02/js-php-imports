@@ -5,7 +5,6 @@ import { PhpImportsConfig } from './PhpImportsConfig'
 
 
 export const PhpImportsRc = t.intersection([
-	PhpImportsConfig,
 	t.readonly(t.strict({
 		root: z.fallback(z.string, () => '.'),
 		include: z.fallback(
@@ -22,6 +21,7 @@ export const PhpImportsRc = t.intersection([
 			],
 		),
 	})),
+	PhpImportsConfig,
 ])
 
 export type PhpImportsRc = t.TypeOf<typeof PhpImportsRc>

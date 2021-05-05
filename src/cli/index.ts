@@ -26,6 +26,10 @@ export class PhpImportsCli extends Command {
 			description: 'Don\'t write any changes to files',
 		}),
 
+		init: Flags.boolean({
+			description: 'Create .phpimportsrc file',
+		}),
+
 		project: Flags.string({
 			char: 'p',
 			description: 'Project directory or .phpimportsrc file',
@@ -96,9 +100,38 @@ export class PhpImportsCli extends Command {
 		}
 	}
 
+	async initProject(): Promise<void> {
+		const rcFile = path.resolve(process.cwd(), '.phpimportsrc')
+
+		try {
+			await fs.stat(rcFile)
+
+			this.error(`Path '${rcFile}' already exists`)
+		} catch (e) {
+			if (e.code !== 'ENOENT') {
+				this.error(e)
+			}
+		}
+
+		await fs.writeFile(
+			rcFile,
+			JSON.stringify(
+				PhpImportsRc.encode(parseRcFromObject({})),
+				undefined,
+				4,
+			),
+		)
+
+		this.log(`File '${rcFile}' successfully created`)
+	}
+
 	async run(): Promise<void> {
 		const { args, flags } = this.parse(PhpImportsCli)
 		const { verbose, dry } = flags
+
+		if (flags.init) {
+			return await this.initProject()
+		}
 
 		const { root, config } = await this.loadConfig(flags.project, flags.config)
 
