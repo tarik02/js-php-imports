@@ -22,6 +22,10 @@ export class PhpImportsCli extends Command {
 			description: 'Print more info',
 		}),
 
+		dry: Flags.boolean({
+			description: 'Don\'t write any changes to files',
+		}),
+
 		project: Flags.string({
 			char: 'p',
 			description: 'Project directory or .phpimportsrc file',
@@ -94,7 +98,7 @@ export class PhpImportsCli extends Command {
 
 	async run(): Promise<void> {
 		const { args, flags } = this.parse(PhpImportsCli)
-		const { verbose } = flags
+		const { verbose, dry } = flags
 
 		const { root, config } = await this.loadConfig(flags.project, flags.config)
 
@@ -116,39 +120,85 @@ export class PhpImportsCli extends Command {
 		progressBar.start(paths.length)
 
 		let changedFilesCount = 0
+		const warnings: Array<{ description: string, error: Error | string | undefined }> = []
+
+		let pendingLogs: Array<() => void> = []
+		const flushLogs = () => {
+			const currentPendingLogs = pendingLogs
+			pendingLogs = []
+
+			for (const callback of currentPendingLogs) {
+				progressBar.terminal.cursorTo(0, null)
+				progressBar.terminal.clearRight()
+				callback()
+			}
+		}
+
+		progressBar.on('redraw-pre', flushLogs)
+		progressBar.on('stop', flushLogs)
 
 		try {
 			await PromisePool
 				.withConcurrency(8)
 				.for(paths)
 				.process(async filePath => {
-					const contents = await fs.readFile(filePath, { encoding: 'utf-8' })
+					try {
+						const contents = await fs.readFile(filePath, { encoding: 'utf-8' })
 
-					const change = processText(contents, config)
+						const change = processText(contents, config, undefined, {
+							onWarning(description, error) {
+								warnings.push({
+									description: `in file ${filePath}: ${description}`,
+									error,
+								})
+							},
+						})
 
-					if (change !== undefined) {
-						const newContents = [
-							contents.substring(0, change.start),
-							change.replacement,
-							contents.substring(change.end),
-						].join('')
+						if (change !== undefined) {
+							const newContents = [
+								contents.substring(0, change.start),
+								change.replacement,
+								contents.substring(change.end),
+							].join('')
 
-						if (verbose) {
-							console.log(`writing file ${path.relative(root, filePath)}`)
+							if (verbose) {
+								pendingLogs.push(
+									() => this.log(`writing file ${path.relative(root, filePath)}`),
+								)
+							}
+
+							if (! dry) {
+								await fs.writeFile(filePath, newContents)
+							}
+
+							++changedFilesCount
 						}
-
-						await fs.writeFile(filePath, newContents)
-
-						++changedFilesCount
+					} catch (error) {
+						warnings.push({
+							description: `in file ${filePath}`,
+							error,
+						})
+					} finally {
+						progressBar.increment()
 					}
-
-					progressBar.increment()
 				})
 		} finally {
 			progressBar.stop()
 		}
 
-		console.log(`processed ${paths.length}, ${changedFilesCount} were changed`)
+		this.log(`processed ${paths.length}, ${changedFilesCount} were changed`)
+
+		if (warnings.length > 0) {
+			this.warn(`${warnings.length} warnings occurred:`)
+			for (const warning of warnings) {
+				if (warning.error) {
+					this.error(warning.description, { exit: false })
+					this.error(warning.error, { exit: false })
+				} else {
+					this.warn(warning.description)
+				}
+			}
+		}
 	}
 }
 
