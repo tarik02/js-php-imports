@@ -62,11 +62,11 @@ It can contain the following options (dot means object nesting):
 * `psr12.minNestedGroupNestedUsesCount`: Minimum count of nested uses to make a nested group with them.
 * `psr12.minNestedGroupUsesCount`: Mimimum count of uses to make a nested group with them.
 * `psr12.minGroupUsesCount`: Mimimum count of uses of same namespace to make a group with them.
-* `custom.enable`: Enable custom imports formatting
+* `custom.enable`: Enable custom imports formatting.
 * `custom.isolateModifiers`: Whether to put different modifiers (without modifier, const and function) to different groups.
 * `custom.include`: A list of namespaces that should always be grouped. Can be used with wildcards (*) and double wildcards (**).
 * `custom.exclude`: A list of namespaces that should never be grouped.
-* `unused.enable`: Clean up unused imports
+* `unused.enable`: Clean up unused imports.
 
 ## License
 
