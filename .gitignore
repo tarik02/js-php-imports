@@ -1,4 +1,6 @@
-lib
-node_modules
+/lib
+/node_modules
 
 /src/grammar/grammar.js
+
+.DS_Store
