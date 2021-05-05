@@ -30,7 +30,7 @@ export const processText = (
 		return undefined
 	}
 
-	if (true || config.unused.enable) {
+	if (config.unused.enable) {
 		try {
 			flat = PhpImports.Unused.clean(text, flat)
 		} catch (e) {
