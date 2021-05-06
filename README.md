@@ -26,6 +26,7 @@ USAGE
 OPTIONS
   -V, --verbose          Print more info
   -c, --config=config    JSON configuration
+  -f, --flag=flag        Specify configuration key-value pair
   -h, --help             show CLI help
   -p, --project=project  [default: .] Project directory or .phpimportsrc file
   -v, --version          show CLI version
@@ -37,6 +38,9 @@ By default, it uses .phpimportsrc file located at current working directory.
 
 ## phpimportsrc
 It is a json file that contains configuration for this package. You can create this file with `$ php-imports --init`.
+
+Also, you can specify these flags with `-f` argument:
+`$ php-imports -f unused.enable=true`
 
 It can contain the following options (dot means object nesting):
 * `root`: Base location of sources. Default is `.` (current working directory).

@@ -40,6 +40,12 @@ export class PhpImportsCli extends Command {
 			char: 'c',
 			description: 'JSON configuration',
 		}),
+
+		flag: Flags.string({
+			char: 'f',
+			description: 'Specify configuration key-value pair',
+			multiple: true,
+		}),
 	}
 
 	static args = [
@@ -51,9 +57,29 @@ export class PhpImportsCli extends Command {
 
 	static strict = false
 
+	private applyFlagsToObject(config: any, flags: Record<string, string>): any {
+		for (const [key, value] of Object.entries(flags)) {
+			const path = key.split('.')
+
+			let currentObject = config
+			for (const pathItem of path.slice(0, -1)) {
+				if (pathItem in currentObject) {
+					currentObject = currentObject[pathItem]
+				} else {
+					currentObject = currentObject[pathItem] = {}
+				}
+			}
+
+			currentObject[path.slice(-1)[0]] = value
+		}
+
+		return config
+	}
+
 	async loadConfig(
 		configPath: string | undefined,
 		configContents: string | undefined,
+		overrideFlags: Record<string, string> = {},
 	): Promise<{ root: string, config: PhpImportsRc }> {
 		const configPathResolved = path.resolve(process.cwd(), configPath ?? '.')
 		const configStat = await fs.stat(configPathResolved)
@@ -77,7 +103,7 @@ export class PhpImportsCli extends Command {
 				if (e.code === 'ENOENT') {
 					return {
 						root: path.dirname(rcFile),
-						config: parseRcFromObject({}),
+						config: parseRcFromObject(this.applyFlagsToObject({}, overrideFlags)),
 					}
 				}
 
@@ -92,7 +118,7 @@ export class PhpImportsCli extends Command {
 			: JSON.parse(configContents)
 		)
 
-		const config = parseRcFromObject(configObject)
+		const config = parseRcFromObject(this.applyFlagsToObject(configObject, overrideFlags))
 
 		return {
 			root: path.resolve(path.dirname(rcFile), config.root),
@@ -133,7 +159,18 @@ export class PhpImportsCli extends Command {
 			return await this.initProject()
 		}
 
-		const { root, config } = await this.loadConfig(flags.project, flags.config)
+		const overrideFlags: Record<string, string> = {}
+
+		for (const flag of flags.flag ?? []) {
+			const [key, value] = [...flag.split('=', 2), 'true']
+			overrideFlags[key] = value
+		}
+
+		const { root, config } = await this.loadConfig(
+			flags.project,
+			flags.config,
+			overrideFlags,
+		)
 
 		const paths = await globby(
 			(args.file !== undefined
