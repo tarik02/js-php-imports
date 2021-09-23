@@ -100,7 +100,7 @@ export class PhpImportsCli extends Command {
 					throw new Error(`${rcFile} exists, but it is not a file`)
 				}
 			} catch (e) {
-				if (e.code === 'ENOENT') {
+				if ((e as any).code === 'ENOENT') {
 					return {
 						root: path.dirname(rcFile),
 						config: parseRcFromObject(this.applyFlagsToObject({}, overrideFlags)),
@@ -134,8 +134,8 @@ export class PhpImportsCli extends Command {
 
 			this.error(`Path '${rcFile}' already exists`)
 		} catch (e) {
-			if (e.code !== 'ENOENT') {
-				this.error(e)
+			if ((e as any).code !== 'ENOENT') {
+				this.error(e as any)
 			}
 		}
 
@@ -246,7 +246,7 @@ export class PhpImportsCli extends Command {
 					} catch (error) {
 						warnings.push({
 							description: `in file ${filePath}`,
-							error,
+							error: error as any,
 						})
 					} finally {
 						progressBar.increment()

@@ -36,7 +36,7 @@ export const processText = (
 		} catch (e) {
 			delegate?.onWarning?.(
 				'Failed to analyze unused imports',
-				e,
+				e as any,
 			)
 		}
 	}
