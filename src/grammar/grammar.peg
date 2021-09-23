@@ -1,6 +1,7 @@
 Document =
-	('<?php' / '<?')? __ namespace:(Namespace _)? uses:Uses .* {
+	('<?php' / '<?')? __ declares:(Declare _)* namespace:(Namespace _)? uses:Uses .* {
 			return {
+				declares: declares.map(it => it[0]),
 				namespace: namespace ? namespace[0] : null,
 				uses,
 			}
@@ -10,6 +11,15 @@ Namespace =
 	'namespace' _ path:TypePath ';' {
 		return {
 			path
+		};
+	}
+
+Declare =
+	'declare' _ '(' _ key:Identifier _ '=' _ value:[^\)]* _ ')' _ ';' {
+		return {
+			location: location(),
+			key,
+			value: value.join('')
 		};
 	}
 
