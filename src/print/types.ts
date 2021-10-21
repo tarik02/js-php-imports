@@ -17,4 +17,8 @@ export type PrintOrder =
 export type PrintConfig = Readonly<{
 	indent: string;
 	order: ReadonlyArray<PrintOrder>;
+	wrap: false | true | number | {
+		limit: number;
+		all: boolean;
+	};
 }>;

@@ -71,6 +71,7 @@ export const processText = (
 	const printed = PhpImports.Print.print(grouped, {
 		order: config.order,
 		indent,
+		wrap: config.print.wrap,
 	})
 
 	const prefix = text.substring(0, document.uses.location.start.offset)

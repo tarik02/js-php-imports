@@ -63,6 +63,11 @@ It can contain the following options (dot means object nesting):
 * `sort.order`: Order of first-level imports. Possible values: `default` (alphabetical) or `natural` (first longest, alphabetical).
 * `sort.nestedOrder`: Order of second-level imports. Possible values: `default` (alphabetical) or `natural` (first longest, alphabetical).
 * `print.emptyLinesAfterImports`: Count of empty lines between last import and the declaration after it.
+* `print.wrap`: If false, then nested groups are never wrapped, if true (which is default), then they are always in separate lines.
+
+	You can also set it to number to start wrapping only when line length exceeds that limit.
+
+	Alternatively it can be set to object `{"all":false,"limit":120}` in order to put as much as possible imports in single line with wrapping still enabled.
 * `psr12.enable`: Enable PSR-12 imports formatting.
 * `psr12.isolateModifiers`: Whether to put different modifiers (without modifier, const and function) to different groups.
 * `psr12.minNestedGroupNestedUsesCount`: Minimum count of nested uses to make a nested group with them.

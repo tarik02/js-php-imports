@@ -16,6 +16,7 @@ const CONFIG_DEFAULTS: PrintConfig = {
 		'groupedUses.function',
 		'groupedUses.const',
 	],
+	wrap: true,
 }
 
 export default (
@@ -25,19 +26,77 @@ export default (
 	const {
 		indent,
 		order,
+		wrap,
 	} = { ...CONFIG_DEFAULTS, ...config }
 
 	const printSingleUse = (use: SingleUse): string => (
 		`use${use.modifier ? ` ${use.modifier}` : ''} ${use.path.join('\\')}${use.alias ? ` as ${use.alias}` : ''};`
 	)
 
-	const printGroupUse = (use: GroupUse): string => [
-		`use${use.modifier ? ` ${use.modifier}` : ''} ${use.path.join('\\')}\\{`,
-		...use.items.map((it, i) => (
-			`${indent}${it.modifier ? `${it.modifier} ` : ''}${it.path.join('\\')}${it.alias ? ` as ${it.alias}` : ''}${i === use.items.length - 1 ? '' : ','}`
-		)),
-		'};',
-	].join('\n')
+	let wrapLimit: number
+
+	switch (typeof wrap) {
+	case 'object':
+		wrapLimit = wrap.limit
+		break
+
+	case 'number':
+		wrapLimit = wrap
+		break
+
+	case 'boolean':
+		if (wrap) {
+			wrapLimit = 0
+		} else {
+			wrapLimit = Infinity
+		}
+	}
+
+	const printGroupUse = (use: GroupUse): string => {
+		const itemStrings = use.items.map((it, i) => (
+			`${it.modifier ? `${it.modifier} ` : ''}${it.path.join('\\')}${it.alias ? ` as ${it.alias}` : ''}${i === use.items.length - 1 ? '' : ','}`
+		))
+
+		const headerString = `use${use.modifier ? ` ${use.modifier}` : ''} ${use.path.join('\\')}\\{`
+
+		const notWrappedLength = headerString.length
+			+ itemStrings.reduce((acc, item) => acc + item.length, 0)
+			+ (itemStrings.length - 1)
+			+ '};'.length
+
+		const shouldWrap = notWrappedLength > wrapLimit
+
+		if (shouldWrap) {
+			if (typeof wrap === 'object' && !wrap.all) {
+				return [
+					headerString,
+					...itemStrings
+						.reduce((acc, item) => {
+							if (acc.length === 0 || acc[acc.length - 1].length + 1 + item.length > wrapLimit) {
+								return [
+									...acc,
+									`${indent}${item}`,
+								]
+							} else {
+								return [
+									...acc.slice(0, -1),
+									`${acc[acc.length - 1]} ${item}`,
+								]
+							}
+						}, [] as string[]),
+					'};',
+				].join('\n')
+			} else {
+				return [
+					headerString,
+					...itemStrings.map(item => `${indent}${item}`),
+					'};',
+				].join('\n')
+			}
+		} else {
+			return `${headerString}${itemStrings.join(' ')}};`
+		}
+	}
 
 	const printUse = (use: SingleUse | GroupUse): string => (
 		use.type === 'single'

@@ -55,6 +55,18 @@ export const PhpImportsConfig = t.readonly(t.strict({
 	print: z.fallbackInput(
 		t.readonly(t.strict({
 			emptyLinesAfterImports: z.fallback(z.integer, () => 1),
+			wrap: z.fallback(
+				t.union([
+					t.literal(false),
+					t.literal(true),
+					z.integer,
+					t.readonly(t.strict({
+						limit: z.integer,
+						all: z.fallback(z.boolean, () => true),
+					})),
+				]),
+				() => true,
+			),
 		})),
 		() => ({}),
 	),
