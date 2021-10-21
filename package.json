@@ -65,6 +65,7 @@
 		"globby": "^11.0.3",
 		"io-ts": "^2.2.16",
 		"io-ts-fuzzy": "^0.1.2",
+		"io-ts-reporters": "^2.0.0",
 		"php-parser": "^3.0.3"
 	}
 }

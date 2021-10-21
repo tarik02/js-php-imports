@@ -1184,6 +1184,11 @@ io-ts-fuzzy@^0.1.2:
   resolved "https://registry.yarnpkg.com/io-ts-fuzzy/-/io-ts-fuzzy-0.1.2.tgz#cd03033e7e8363c20aeb4f6a5c47eca4aa2bc448"
   integrity sha512-FNN5+iqRvMZQK5AkWDCDnjVBw/iKMViVsl8ID/xUWnOvMkPonzOi2Zx/yYwDUJNEo7x+V2QYehG9VvTz2iLvQA==
 
+io-ts-reporters@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/io-ts-reporters/-/io-ts-reporters-2.0.0.tgz#a7ae071b69a170c4d475d15bb93bfc964da6b04b"
+  integrity sha512-lcCD/Q77jcWjq7jBQb8nLfCU4DM/9hiQakYHNT1FLCA6kwMuHe0QEcugh27vrT3S5FoQDiWXq3ofaYR7GWAcOg==
+
 io-ts@^2.2.16:
   version "2.2.16"
   resolved "https://registry.yarnpkg.com/io-ts/-/io-ts-2.2.16.tgz#597dffa03db1913fc318c9c6df6931cb4ed808b2"
