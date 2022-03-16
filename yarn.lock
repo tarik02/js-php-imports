@@ -1647,10 +1647,10 @@ pegjs@^0.10.0:
   resolved "https://registry.yarnpkg.com/pegjs/-/pegjs-0.10.0.tgz#cf8bafae6eddff4b5a7efb185269eaaf4610ddbd"
   integrity sha1-z4uvrm7d/0tafvsYUmnqr0YQ3b0=
 
-php-parser@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.0.3.tgz#287779ea8a273ec5cf926f28e5f38ffa4ad32d4a"
-  integrity sha512-WjbrtYrwmLY9hpoKoq1+mVqJhT0dEVDZRWSpNIw2MpTw3VM/K4C6e0WR4KlU6G/XROkV7tpH4NesV2dDiPxqaw==
+php-parser@^3.1.0-beta.4:
+  version "3.1.0-beta.4"
+  resolved "https://registry.yarnpkg.com/php-parser/-/php-parser-3.1.0-beta.4.tgz#a56e3c90e0371e41fb9c1a09f4459b5adad2b03b"
+  integrity sha512-fLW5tSV8PK0Kizn+Wx1LrhJIFW5eYME4RXoHwIIXfArTBRs7RQJhoU016rXJTPQZIKAXo93ddVyojVvCOETxiA==
 
 picomatch@^2.0.5, picomatch@^2.2.1:
   version "2.2.2"
