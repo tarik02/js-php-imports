@@ -5,7 +5,7 @@
 		"email": "Taras.Fomin@gmail.com"
 	},
 	"license": "MIT",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "JavaScript library for formatting PHP imports",
 	"homepage": "https://github.com/Tarik02/js-php-imports#readme",
 	"bugs": {
