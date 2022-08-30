@@ -66,6 +66,6 @@
 		"io-ts": "^2.2.16",
 		"io-ts-fuzzy": "^0.1.2",
 		"io-ts-reporters": "^2.0.0",
-		"php-parser": "^3.1.0-beta.4"
+		"php-parser": "^3.1.0"
 	}
 }
