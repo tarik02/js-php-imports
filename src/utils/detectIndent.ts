@@ -1,21 +1,19 @@
 export default (source: string): string | undefined => {
-	const re = /^([\t ]+)(private|public|protected)/gm
-	const indents: Record<string, number> = {}
+	const lines = source.split('\n')
 
-	let match
-	while ((match = re.exec(source)) !== null) {
-		indents[match[1]] = (indents[match[1]] ?? 0) + 1
-	}
+	let i = 0
+	const c = lines.length
 
-	let maxCount = 0
-	let maxIndent = undefined
-
-	for (const [indent, count] of Object.entries(indents)) {
-		if (count > maxCount) {
-			maxCount = count
-			maxIndent = indent
+	for (; i < c; ++i) {
+		if (lines[i].endsWith('{')) {
+			for (++i; i < c; ++i) {
+				const match = lines[i].match(/^(\t+| +)/)
+				if (match !== null) {
+					return match[1]
+				}
+			}
 		}
 	}
 
-	return maxIndent
+	return undefined
 }
