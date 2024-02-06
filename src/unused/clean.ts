@@ -149,7 +149,6 @@ const walkTreeRecursively = (
 	callback: (node: PhpParser.Node) => void,
 ) => {
 	callback(node)
-
 	for (const value of Object.values(node)) {
 		if (typeof value !== 'object' || value === null) {
 			continue
@@ -171,7 +170,6 @@ export default (source: string, items: FlatUseItem[]): FlatUseItem[] => {
 	const parser = new PhpParser.Engine({
 		parser: {
 			extractDoc: true,
-			php7: true,
 		},
 	})
 
