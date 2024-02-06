@@ -122,6 +122,10 @@ function* extractCommentTypeReferences(node: PhpParser.Comment): Generator<strin
 	}
 }
 
+function* extractAttributeTypeReferences(node: PhpParser.Attribute): Generator<string> {
+	yield node.name
+}
+
 const visitors: Record<string, ((node: any) => Generator<string>) | undefined> = {
 	*name(node: PhpParser.Name) {
 		switch (node.resolution) {
@@ -142,6 +146,10 @@ const visitors: Record<string, ((node: any) => Generator<string>) | undefined> =
 	*commentline(node: PhpParser.CommentLine) {
 		yield* extractCommentTypeReferences(node)
 	},
+
+	*attribute(node: PhpParser.Attribute) {
+		yield* extractAttributeTypeReferences(node)
+	},
 }
 
 const walkTreeRecursively = (
@@ -149,7 +157,7 @@ const walkTreeRecursively = (
 	callback: (node: PhpParser.Node) => void,
 ) => {
 	callback(node)
-
+	
 	for (const value of Object.values(node)) {
 		if (typeof value !== 'object' || value === null) {
 			continue
@@ -171,7 +179,6 @@ export default (source: string, items: FlatUseItem[]): FlatUseItem[] => {
 	const parser = new PhpParser.Engine({
 		parser: {
 			extractDoc: true,
-			php7: true,
 		},
 	})
 
